@@ -1,9 +1,6 @@
 const pool = require("../config/dbConfig");
 const { dataRes } = require("../utils/response");
 
-//! This is for admin (or parents)
-
-//? get users
 async function getUsers(req, res, next) {
   const { search, sortBy, order, dateFilter, startsWith, endsWith } = req.query;
   const page = parseInt(req.query.page) || 1;
@@ -40,8 +37,8 @@ async function getUsers(req, res, next) {
           values.push(startsWith);
         }
         if (endsWith) {
-          updates.push(`date < $${updates.length + 1}`)
-          values.push(endsWith)
+          updates.push(`date < $${updates.length + 1}`);
+          values.push(endsWith);
         }
       }
     }
@@ -67,8 +64,6 @@ async function getUsers(req, res, next) {
   }
 }
 
-//? users table with summation expense
-//! ada yang salah ni querynya benerin nanti
 async function usersExpenseSum(req, res, next) {
   const { search, dateFilter, startsWith, sortBy, order } = req.query;
   const page = parseInt(req.query.page) || 1;
@@ -102,8 +97,8 @@ async function usersExpenseSum(req, res, next) {
           values.push(startsWith);
         }
         if (endsWith) {
-          updates.push(`date < $${updates.length + 1}`)
-          values.push(endsWith)
+          updates.push(`date < $${updates.length + 1}`);
+          values.push(endsWith);
         }
       }
     }
@@ -131,8 +126,6 @@ async function usersExpenseSum(req, res, next) {
     next(err);
   }
 }
-
-//! This is for general data collecting (expenses)
 
 async function getTransactions(req, res, next) {
   const username = req.user.username;
@@ -169,8 +162,8 @@ async function getTransactions(req, res, next) {
           values.push(startsWith);
         }
         if (endsWith) {
-          updates.push(`date < $${updates.length + 1}`)
-          values.push(endsWith)
+          updates.push(`date < $${updates.length + 1}`);
+          values.push(endsWith);
         }
       }
     }
@@ -198,8 +191,8 @@ async function getTransactions(req, res, next) {
 
 async function getCategories(req, res, next) {
   try {
-    const result = await pool.query(`SELECT * FROM categories`)
-    return dataRes(res, 200, result.rows, "Data berhasil diambil.")
+    const result = await pool.query(`SELECT * FROM categories`);
+    return dataRes(res, 200, result.rows, "Data berhasil diambil.");
   } catch (err) {
     next(err);
   }
