@@ -116,7 +116,7 @@ async function usersExpenseSum(req, res, next) {
       }
     }
 
-    query += ` LIMIT $${updates.length + 1} OFFSET $${updates.length + 2}`;
+    query += ` LIMIT $${updates.length + 1} OFFSET $${updates.length + 2};`;
 
     values.push(limit);
     values.push(offset);
@@ -144,11 +144,7 @@ async function getTransactions(req, res, next) {
     let values = [];
     if (search) {
       updates.push(
-        `AND (u.first_name ILIKE '%' || $${
-          updates.length + 1
-        } || '%' OR u.last_name ILIKE '%' || $${
-          updates.length + 1
-        } || '%' OR u.username ILIKE '%' || $${updates.length + 1} || '%')`
+        `AND (u.first_name ILIKE '%' || $${updates.length + 1} || '%' OR u.last_name ILIKE '%' || $${updates.length + 1} || '%' OR u.username ILIKE '%' || $${updates.length + 1} || '%')`
       );
       values.push(search);
     }
@@ -179,7 +175,7 @@ async function getTransactions(req, res, next) {
       }
     }
 
-    query += ` LIMIT $${updates.length + 1} OFFSET $${updates.length + 2}`;
+    query += ` LIMIT $${updates.length + 1} OFFSET $${updates.length + 2};`;
     values.push(limit);
     values.push(offset);
     const result = await pool.query(query, values);
@@ -191,7 +187,7 @@ async function getTransactions(req, res, next) {
 
 async function getCategories(req, res, next) {
   try {
-    const result = await pool.query(`SELECT * FROM categories`);
+    const result = await pool.query(`SELECT * FROM categories;`);
     return dataRes(res, 200, result.rows, "Data berhasil diambil.");
   } catch (err) {
     next(err);

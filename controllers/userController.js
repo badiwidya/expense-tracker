@@ -6,9 +6,7 @@ const { generateToken, verifyToken } = require("../utils/auth");
 async function loginUsers(req, res, next) {
   const { username, password } = req.body;
   try {
-    const result = await pool.query("SELECT * FROM users WHERE username = $1", [
-      username,
-    ]);
+    const result = await pool.query("SELECT * FROM users WHERE username = $1;", [username]);
     if (result.rows.length === 0) {
       return errorRes(res, 400, "Username atau password salah.");
     }
@@ -42,7 +40,7 @@ async function registerUsers(req, res, next) {
   const { nama_depan, nama_belakang, username, email, password } = req.body;
   try {
     const checkUser = await pool.query(
-      "SELECT * FROM users WHERE username = $1",
+      "SELECT * FROM users WHERE username = $1;",
       [username]
     );
     if (checkUser.rows.length > 0) {
@@ -50,7 +48,7 @@ async function registerUsers(req, res, next) {
     }
     const hashedPass = await hashPassword(password);
     const query =
-      "INSERT INTO users (first_name, last_name, username, password, email) VALUES ($1, $2, $3, $4, $5) RETURNING id";
+      "INSERT INTO users (first_name, last_name, username, password, email) VALUES ($1, $2, $3, $4, $5) RETURNING id;";
     const result = await pool.query(query, [
       nama_depan,
       nama_belakang,

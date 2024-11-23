@@ -5,7 +5,7 @@ async function createTransactions(req, res, next) {
   const user_id = req.user.id;
   const { category_id, amount, description, date } = req.body;
   try {
-    const query = `INSERT INTO transactions (user_id, category_id, amount, description, date) VALUES ($1, $2, $3, $4, $5) RETURNING id`;
+    const query = `INSERT INTO transactions (user_id, category_id, amount, description, date) VALUES ($1, $2, $3, $4, $5) RETURNING id;`;
     const result = await pool.query(query, [
       user_id,
       category_id,
@@ -25,7 +25,7 @@ async function createTransactions(req, res, next) {
 async function deleteTransactions(req, res, next) {
   const id = req.params.id;
   try {
-    const query = `DELETE FROM transactions WHERE id = $1`;
+    const query = `DELETE FROM transactions WHERE id = $1;`;
     const result = await pool.query(query, [id]);
     return successRes(res, 200, "Data berhasil dihapus", null);
   } catch (err) {
@@ -74,7 +74,7 @@ async function editTransactions(req, res, next) {
 async function createCategories(req, res, next) {
 	const {name, description} = req.body;
 	try {
-		const result = await pool.query(`INSERT INTO categories (name, description) VALUES ($1, $2) RETURNING id`, [name, description])
+		const result = await pool.query(`INSERT INTO categories (name, description) VALUES ($1, $2) RETURNING id;`, [name, description])
 		if (result.rows.length > 0) {
 			return successRes(res, 200, "Data berhasil dibuat.", result.rows);
 		}
