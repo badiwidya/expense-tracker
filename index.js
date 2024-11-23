@@ -1,14 +1,30 @@
 const express = require("express");
+const cookieParser = require("cookie-parser");
 const app = express();
 const cors = require("cors");
 const userRoutes = require("./routes/userRoutes");
-require("dotenv").config();
+const errHandle = require("./middlewares/errorHandling");
+const dataRoutes = require("./routes/dataRoutes");
+const { authenticate } = require("./middlewares/authValidate");
+const server = require("./config/serverConf")
 
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+  })
+);
 app.use(express.json());
+app.use(cookieParser());
+
+app.get("/", authenticate, (req, res) => {
+  res.send("Anjay");
+});
 
 app.use("/api", userRoutes);
+app.use("/api", dataRoutes);
 
-app.listen(process.env.PORT, () => {
-  console.log(`Server berjalan di ${process.env.HOST}:${process.env.PORT}`);
+app.use(errHandle);
+
+app.listen(server.port, () => {
+  console.log(`Server berjalan di ${server.host}:${server.port}`);
 });

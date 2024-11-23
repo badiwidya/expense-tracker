@@ -11,11 +11,11 @@ function validateInput(req, res, next) {
       !isEmail(email) ||
       !password?.trim()
     ) {
-      return errorRes(res, 400, "Data tidak boleh kosong");
+      return errorRes(res, 400, "Data tidak boleh kosong.");
     }
   } else if (req.path === "/login") {
     if (!username || !password) {
-      return errorRes(res, 400, "Data tidak boleh kosong");
+      return errorRes(res, 400, "Data tidak boleh kosong.");
     }
   }
   next();
