@@ -26,6 +26,6 @@ router.delete("/expenses/:id", authenticate, deleteTransactions);
 router.patch("/expenses/:id", authenticate, editTransactions);
 router.post("/expenses", authenticate, createTransactions);
 router.get("/categories", authenticate, getCategories);
-router.post("/categories", authenticate, createCategories);
+router.post("/categories", authenticate, authorize("admin"), createCategories);
 
 module.exports = router;
